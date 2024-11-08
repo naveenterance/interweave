@@ -7,7 +7,26 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLoginSuccess = (credentialResponse) => {
-    console.log(credentialResponse);
+    console.log("Credential Response:", credentialResponse);
+
+    // Extract the ID token (or other relevant information)
+    const idToken = credentialResponse.credential;
+
+    // Optionally, you can decode the ID token to get user information
+    if (idToken) {
+      const decodedToken = JSON.parse(atob(idToken.split(".")[1]));
+      console.log("Decoded Token:", decodedToken);
+
+      // Example: Extract user email, name, and other details
+      const userEmail = decodedToken.email;
+      const userName = decodedToken.name;
+      const userPicture = decodedToken.picture;
+
+      console.log("User Email:", userEmail);
+      console.log("User Name:", userName);
+      console.log("User Picture URL:", userPicture);
+    }
+
     setIsLoggedIn(true);
   };
 
