@@ -12,6 +12,29 @@ export const GET_USER = gql`
     }
   }
 `;
+export const GET_ALL_USERS = gql`
+  query GetAllUsers {
+    users {
+      id
+      name
+      email
+      avatar
+      cart
+    }
+  }
+`;
+export const LOGIN_USER = gql`
+  mutation LoginUser($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      token
+      user {
+        id
+        name
+        email
+      }
+    }
+  }
+`;
 
 export const GET_USERS = gql`
   query GetUsers {

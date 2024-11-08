@@ -16,6 +16,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "./components/apolloClient";
 import UserForm from "./components/UserForm";
 import DeleteUser from "./components/DeleteUser";
+import UserList from "./components/UserList";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
 
         <h2>Delete User</h2>
         <DeleteUser />
+        <UserList />
       </div>
     </ApolloProvider>
   );

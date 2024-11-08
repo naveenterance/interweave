@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { useMutation } from "@apollo/client";
-import { useForm } from "react-hook-form";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { CREATE_USER, UPDATE_USER } from "./mutation";
 
 type UserFormProps = {
@@ -10,30 +11,52 @@ type UserFormProps = {
 };
 
 const UserForm: React.FC<UserFormProps> = ({ userId, isEdit }) => {
-  const { register, handleSubmit, reset } = useForm();
   const [createUser] = useMutation(CREATE_USER);
   const [updateUser] = useMutation(UPDATE_USER);
 
-  const onSubmit = async (data: any) => {
+  // Yup validation schema
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    avatar: Yup.string().url("Invalid URL format"),
+    cart: Yup.string(),
+  });
+
+  // Initial form values
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    avatar: "",
+    cart: "",
+  };
+
+  // Form submission handler
+  const onSubmit = async (values: any, { resetForm }: any) => {
     try {
       if (isEdit) {
         await updateUser({
-          variables: { id: userId, ...data },
+          variables: { id: userId, ...values },
         });
         alert("User updated successfully!");
       } else {
         await createUser({
           variables: {
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            avatar: data.avatar,
-            cart: data.cart ? data.cart.split(",") : [],
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            avatar: values.avatar,
+            cart: values.cart ? values.cart.split(",") : [],
           },
         });
         alert("User created successfully!");
       }
-      reset();
+      resetForm();
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred.");
@@ -41,19 +64,44 @@ const UserForm: React.FC<UserFormProps> = ({ userId, isEdit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("name")} placeholder="Name" required />
-      <input {...register("email")} placeholder="Email" type="email" required />
-      <input
-        {...register("password")}
-        placeholder="Password"
-        type="password"
-        required
-      />
-      <input {...register("avatar")} placeholder="Avatar URL" />
-      <input {...register("cart")} placeholder="Cart (comma-separated)" />
-      <button type="submit">{isEdit ? "Update User" : "Create User"}</button>
-    </form>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <Field name="name" placeholder="Name" />
+            <ErrorMessage name="name" component="div" className="error" />
+          </div>
+
+          <div>
+            <Field name="email" type="email" placeholder="Email" />
+            <ErrorMessage name="email" component="div" className="error" />
+          </div>
+
+          <div>
+            <Field name="password" type="password" placeholder="Password" />
+            <ErrorMessage name="password" component="div" className="error" />
+          </div>
+
+          <div>
+            <Field name="avatar" placeholder="Avatar URL" />
+            <ErrorMessage name="avatar" component="div" className="error" />
+          </div>
+
+          <div>
+            <Field name="cart" placeholder="Cart (comma-separated)" />
+            <ErrorMessage name="cart" component="div" className="error" />
+          </div>
+
+          <button type="submit" disabled={isSubmitting}>
+            {isEdit ? "Update User" : "Create User"}
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
