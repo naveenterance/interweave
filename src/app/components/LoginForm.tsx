@@ -38,8 +38,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         },
       });
 
-      if (data?.loginUser?.token) {
-        alert("Login successful!");
+      if (data?.login) {
+        alert(`Login successful! Welcome, ${data.login.name}`);
         onLoginSuccess();
       } else {
         alert("Invalid email or password.");

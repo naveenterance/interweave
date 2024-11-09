@@ -39,6 +39,7 @@ const UserList: React.FC = () => {
                 <div>
                   <h3>{user.name}</h3>
                   <p>Email: {user.email}</p>
+                  <p>password: {user.password}</p>
                   {user.cart?.length > 0 ? (
                     <p>Cart Items: {user.cart.join(", ")}</p>
                   ) : (
