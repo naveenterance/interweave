@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { DELETE_USER } from "./mutation";
+import { DELETE_USER } from "../../../utils/db/auth/mutation";
 
 const DeleteUser: React.FC = () => {
   const [deleteUser] = useMutation(DELETE_USER);

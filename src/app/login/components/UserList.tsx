@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_USERS } from "./mutation";
+import { GET_ALL_USERS } from "../../../utils/db/auth/mutation";
 
 const UserList: React.FC = () => {
   const { loading, error, data } = useQuery(GET_ALL_USERS);

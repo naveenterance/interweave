@@ -1,11 +1,10 @@
-"use client";
 import React from "react";
 import { useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { LOGIN_USER } from "./mutation"; // Replace with your actual login mutation
+import { LOGIN_USER } from "../../../utils/db/auth/mutation"; // Replace with your actual login mutation
 import { useDispatch } from "react-redux";
-import { logout, login } from "./Actions";
+import { logout, login } from "@/utils/redux/actions/Auth";
 import { useSelector } from "react-redux";
 
 type LoginFormProps = {

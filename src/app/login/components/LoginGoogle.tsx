@@ -3,8 +3,9 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 
-const Login = () => {
+const LoginGoogle = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleLoginSuccess = (credentialResponse) => {
     console.log("Credential Response:", credentialResponse);
@@ -21,6 +22,7 @@ const Login = () => {
       const userEmail = decodedToken.email;
       const userName = decodedToken.name;
       const userPicture = decodedToken.picture;
+      setEmail(userEmail);
 
       console.log("User Email:", userEmail);
       console.log("User Name:", userName);
@@ -38,7 +40,8 @@ const Login = () => {
     // Sign out from Google
     if (window.google) {
       window.google.accounts.id.revoke(
-        "user-email@example.com", // Pass the user's email here if available
+        // "user-email@example.com", // Pass the user's email here if available
+        email,
         (done) => {
           console.log("User revoked access");
           setIsLoggedIn(false);
@@ -62,4 +65,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginGoogle;

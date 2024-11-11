@@ -3,7 +3,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { CREATE_USER, UPDATE_USER } from "./mutation";
+import { CREATE_USER, UPDATE_USER } from "../../../utils/db/auth/mutation";
 
 type UserFormProps = {
   userId?: string;
