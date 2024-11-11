@@ -31,7 +31,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     email: "",
     password: "",
   };
-  console.log(JSON.stringify(user));
+  console.log("REDUSWS" + JSON.stringify(user));
   // Form submission handler
   const onSubmit = async (values: any, { resetForm }: any) => {
     try {
@@ -46,7 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         alert(`Login successful! Welcome, ${data.login.name}`);
         onLoginSuccess();
 
-        dispatch(login({ email: data.login.email, password: data.login.name }));
+        dispatch(login({ email: data.login.email }));
         console.log(JSON.stringify(data));
       } else {
         alert("Invalid email or password.");
