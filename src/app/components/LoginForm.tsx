@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { LOGIN_USER } from "./mutation"; // Replace with your actual login mutation
 import { useDispatch } from "react-redux";
-import { login, logout } from "./UserSlice";
+import { logout, login } from "./Actions";
 import { useSelector } from "react-redux";
 
 type LoginFormProps = {
@@ -15,7 +15,7 @@ type LoginFormProps = {
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [loginUser] = useMutation(LOGIN_USER);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state: any) => state.user.value);
 
   // Yup validation schema
   const validationSchema = Yup.object({

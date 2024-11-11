@@ -20,17 +20,10 @@ import UserList from "./components/UserList";
 import LoginForm from "./components/LoginForm";
 import Login from "./components/login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useSelector } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import userReducer from "./components/UserSlice";
+import store from "./components/Store";
 
 const App: React.FC = () => {
-  const store = configureStore({
-    reducer: {
-      user: userReducer,
-    },
-  });
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_googleClientId!}>
       <ApolloProvider client={client}>
