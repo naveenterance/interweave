@@ -4,6 +4,9 @@ import { useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { LOGIN_USER } from "./mutation"; // Replace with your actual login mutation
+import { useDispatch } from "react-redux";
+import { login, logout } from "./UserSlice";
+import { useSelector } from "react-redux";
 
 type LoginFormProps = {
   onLoginSuccess: () => void; // Callback to handle successful login
@@ -11,6 +14,8 @@ type LoginFormProps = {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [loginUser] = useMutation(LOGIN_USER);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
   // Yup validation schema
   const validationSchema = Yup.object({
@@ -27,7 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     email: "",
     password: "",
   };
-
+  console.log(JSON.stringify(user));
   // Form submission handler
   const onSubmit = async (values: any, { resetForm }: any) => {
     try {
@@ -41,6 +46,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       if (data?.login) {
         alert(`Login successful! Welcome, ${data.login.name}`);
         onLoginSuccess();
+
+        dispatch(login({ email: data.login.email, password: data.login.name }));
+        console.log(JSON.stringify(data));
       } else {
         alert("Invalid email or password.");
       }
